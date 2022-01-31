@@ -1,2 +1,4 @@
-# CSC433
-A+ Labs: CSC433 Final Project
+# CSC433 Project
+# The A+ Labs: CSC433 Project
+
+Initial commit, to be changed when the project is started.
