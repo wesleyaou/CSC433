@@ -1,0 +1,3 @@
+include .gitignore
+graft StudentAssist/web/templates/
+graft StudentAssist/web/static/ 

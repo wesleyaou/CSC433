@@ -1,0 +1,26 @@
+/* General Stylings */
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 8% 92%;
+    height: 100%;
+}
+
+
+/* Side Menu Stylings */
+.menu {
+    height: 100%;
+}
+
+.tab-btn {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    height: 140px;
+    text-align: center;
+    border: 0px;
+}

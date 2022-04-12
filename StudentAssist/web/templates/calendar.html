@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!-- TODO: Get rid of all the divs! -->
+<html>
+  <head>
+    <!--Title & Link to CSS file-->
+    <title>StudentAssist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/SA_style.css') }}">
+  </head>
+  <body>
+  <!--Side menu buttons-->
+  <div class="menu">
+    <button class="tab-btn" id="home-btn" onclick="location.href='/home'">Home</button>
+    <button class="tab-btn" id="cal-btn" onclick="location.href='/calendar'">Calendar</button>
+    <button class="tab-btn" id="settings-btn" onclick="location.href='/settings'">Settings</button>
+  </div>
+  <div class="content">
+    Calendar Here
+  </div>
+  </body>
+</html>
