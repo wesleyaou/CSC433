@@ -39,3 +39,24 @@ body {
 .active-btn {
     background-color: rgb(148, 148, 148);
 }
+
+/* Main Content Stylings */
+.content {
+    display: grid;
+    grid-template-rows: 10% 90%;
+    padding: 10px;
+}
+
+/* Kanban Board/Home Stylings */
+.kanban-board {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    justify-items: center;
+}
+
+.kanban-column {
+    width: 80%;
+    height: 95%;
+    border-radius: 20px;
+    background-color: rgb(176, 25, 25);
+}
