@@ -10,15 +10,6 @@ CREATE TABLE IF NOT EXISTS "Users" (
 	"phoneNotifs"	TEXT,
 	PRIMARY KEY("userID")
 );
-CREATE TABLE IF NOT EXISTS "Tasks" (
-	"userID"	INTEGER,
-	"taskName"	TEXT,
-	"taskStartDate"	TEXT,
-	"taskDueDate"	TEXT,
-	"taskProgress"	TEXT,
-	FOREIGN KEY("userID") REFERENCES "Users"("userID"),
-	PRIMARY KEY("userID","taskName")
-);
 CREATE TABLE IF NOT EXISTS "Classes" (
 	"userID"	INTEGER,
 	"className"	TEXT,
@@ -27,5 +18,15 @@ CREATE TABLE IF NOT EXISTS "Classes" (
 	"endTime"	TEXT,
 	FOREIGN KEY("userID") REFERENCES "Users"("userID"),
 	PRIMARY KEY("userID","className")
+);
+CREATE TABLE IF NOT EXISTS "Tasks" (
+	"userID"	INTEGER,
+	"taskName"	TEXT,
+	"taskStartDate"	TEXT,
+	"taskDueDate"	TEXT,
+	"taskProgress"	TEXT,
+	"taskClass"	TEXT,
+	FOREIGN KEY("userID") REFERENCES "Users"("userID"),
+	PRIMARY KEY("userID","taskName")
 );
 COMMIT;
