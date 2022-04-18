@@ -4,29 +4,51 @@
     <!--Title & Link to CSS file-->
     <title>StudentAssist</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/SA_style.css') }}">
+    <script src="{{ url_for('static', filename='js/utils.js') }}"> </script>
   </head>
   <body>
   <!--Side menu buttons-->
   <div class="menu">
     <div class="menu-btns">
-      <button class="tab-btn active-btn" id="home-btn" onclick="location.href='/home'">Home</button>
-      <button class="tab-btn" id="cal-btn" onclick="location.href='/calendar'">Calendar</button>
-      <button class="tab-btn" id="settings-btn" onclick="location.href='/settings'">Settings</button>
+      <button class="tab-btn active" id="home-btn" onclick="openTab(event, 'home')">Home</button>
+      <button class="tab-btn" id="cal-btn" onclick="openTab(event, 'calendar')">Calendar</button>
+      <button class="tab-btn" id="settings-btn" onclick="openTab(event, 'settings')">Settings</button>
     </div>
-    <!--Format the button to show the active tab-->
-    <script src="{{ url_for('static', filename='js/utils.js') }}"> 
-      setActiveTab("home-btn");
-    </script>
   </div>
   <div class="content">
     <div class="notif-contain">
       <div id="notification"></div>
     </div>
-    <div class="kanban-board">
-      <div class="kanban-column" id="kanban-todo"></div>
-      <div class="kanban-column" id="kanban-inprog"></div>
-      <div class="kanban-column" id="kanban-done"></div>
+    <div class="tab-content" id="home">
+      <div class="kanban-board">
+        <div class="kanban-column" id="kanban-todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+          <div class="kanban-head">
+            <h2>To-Do</h2>
+          </div>
+        </div>
+        <div class="kanban-column" id="kanban-inprog" ondrop="drop(event)" ondragover="allowDrop(event)">
+          <div class="kanban-head">
+            <h2>In-Progress</h2>
+          </div>
+        </div>
+        <div class="kanban-column" id="kanban-done" ondrop="drop(event)" ondragover="allowDrop(event)">
+          <div class="kanban-head">
+            <h2>Done</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-content" id="calendar">
+      Calendar Test!
+    </div>
+    <div class="tab-content" id="settings">
+      Settings Test!
     </div>
   </div>
+  <!--Format the button to show the active tab-->
+  <script>
+    selectDefault();
+    populateKanban(2);
+  </script>
   </body>
 </html>
