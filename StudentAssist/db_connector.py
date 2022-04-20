@@ -44,12 +44,47 @@ class Tasks(db.Model):
     taskDueDate = db.Column(db.String(20), unique=False, nullable=False)
     taskProgress = db.Column(db.String(20), unique=False, nullable=False)
 
+# Task and user creation
+def createTask(userID, taskName, taskStartDate, taskDueDate, taskProgress):
+    if db:
+        newTask = Tasks(userID=userID, 
+                        taskName=taskName, 
+                        taskStartDate=taskStartDate, 
+                        taskDueDate=taskDueDate, 
+                        taskProgress=taskProgress)
+
+        db.session.add(newTask)
+        db.session.commit()
+        return {"success" : "task created"}
+    else:
+        log.error("couldn't load database for task creation!")
+        return {"error" : "couldn't load database!"}
+
+def createUser(firstName, lastName, emailAddress, password, emailNotifs, phoneNotifs):
+    if db:
+        newUser = User(firstName=firstName, 
+                        lastName=lastName, 
+                        emailAddress=emailAddress, 
+                        password=password, 
+                        emailNotifs=emailNotifs, 
+                        phoneNotifs=phoneNotifs)
+        
+        db.session.add(newUser)
+        db.session.commit()
+        return {"success" : "user created"}
+    else:
+        log.error("couldn't load database for user creation!")
+        return {"error" : "couldn't load database!"}
 
 # Update a specific task
 def changeTask(userID, taskName, newState):
     if db:
-        db.session.query(Tasks).filter(Tasks.userID == userID, Tasks.taskName == taskName).update({"taskProgress" : newState})
-        db.session.commit()
+        if newState == "delete":
+            db.session.query(Tasks).filter(Tasks.userID == userID, Tasks.taskName == taskName).delete()
+            db.session.commit()
+        else:
+            db.session.query(Tasks).filter(Tasks.userID == userID, Tasks.taskName == taskName).update({"taskProgress" : newState})
+            db.session.commit()
         return {"success" : "task updated"}
     else:
         log.error("couldn't load database!")
@@ -68,7 +103,7 @@ def getTasks(userID):
                         "taskProgress" : row.taskProgress})
         return {"tasks" : tasks}
     else:
-        log.error("couldn't load database!")
+        log.error("couldn't load database to pull tasks!")
         return {"error" : "couldn't load database!"}
 
 
@@ -84,7 +119,9 @@ def getUser(userID):
                     "phoneNotifs" : result.phoneNotifs}
         
         return {"user" : user_info}
-
+    else:
+        log.error("couldn't load database to pull user!")
+        return {"error" : "couldn't load database!"}
 
 
 # Brief informal testing

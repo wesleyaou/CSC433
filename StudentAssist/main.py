@@ -1,6 +1,6 @@
 # RESTful naming conventions https://restfulapi.net/resource-naming/
 
-from flask import Flask, jsonify, render_template
+from flask import jsonify, render_template, request
 from config import sa_cfg
 from __init__ import app
 import db_connector
@@ -50,9 +50,45 @@ def get_user_tasks(uid):
 REST Endpoints for data editing
 ================== 
 """
-@app.route("/user/tasks/edit/uid=<uid>&taskName=<taskName>&newState=<newState>", methods=["POST"])
-def changeTaskState(uid, taskName, newState):
+@app.route("/user/tasks/edit", methods=["POST"])
+def changeTaskState():
+    # Pull the query params
+    params = request.args
+    uid = params.get("uid")
+    taskName = params.get("taskName")
+    newState = params.get("newState")
     return jsonify(db_connector.changeTask(uid, taskName, newState))
+
+
+""" 
+==================
+REST Endpoints for entity creation
+================== 
+"""
+# Creates a new task
+@app.route("/create/task", methods=["POST"])
+def createTask():
+    # Pull the query params
+    params = request.args
+    userID=params.get("uid")
+    taskName=params.get("taskName")
+    taskStartDate=params.get("taskStartDate")
+    taskDueDate=params.get("taskDueDate")
+    taskProgress=params.get("taskProgress")
+    return jsonify(db_connector.createTask(userID, taskName, taskStartDate, taskDueDate, taskProgress))
+
+# Creates a new user
+@app.route("/create/user", methods=["POST"])
+def createUser():
+    # Pull the query params
+    params = request.args
+    firstName=params.get("firstName")
+    lastName=params.get("lastName")
+    emailAddress=params.get("emailAddress")
+    password=params.get("password")
+    emailNotifs=params.get("emailNotifs")
+    phoneNotifs=params.get("phoneNotifs")
+    return jsonify(db_connector.createUser(firstName, lastName, emailAddress, password, emailNotifs, phoneNotifs))
 
 """
 ==================

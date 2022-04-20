@@ -40,24 +40,27 @@ Kanban Functionality (drag & drop)
 ================== */
 
 function drag(ev) {
-    console.log("drag event!");
-    console.log(ev.target.id);
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
 function allowDrop(ev) {
-    console.log("allow drop event!");
     ev.preventDefault();
 }
 
 function drop(ev) {
-    console.log(ev);
-    //taskName = document.getElementById(target.id).innerText;
-    //console.log(taskName);
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
-    encodedTaskName = encodeURIComponent(document.getElementById(data).innerText);
+    var encodedTaskName = encodeURIComponent(document.getElementById(data).innerText);
+    if (ev.target.id != "kanban-delete"){
+        ev.target.appendChild(document.getElementById(data));
+    } else {
+        var delTask = confirm("Remove task: \"" + document.getElementById(data).innerText + "\"?");
+        if (delTask) {
+            document.getElementById(data).remove();
+        } else {
+            return;
+        }
+    }
     taskChangeState(encodedTaskName, ev.target.id);
 }
 
@@ -66,7 +69,33 @@ function drop(ev) {
 Task Functionality (object, create, delete)
 ================== */
 
-function createTask(taskName, taskStartDate, taskDueDate, taskProgress) {
+function createTask(taskName, taskStartDate, taskDueDate, taskProgress, source) {
+    if (source === "user"){
+        taskCreateEndpoint = "/create/task?uid=" + window.userID + 
+                            "&taskName=" + taskName + 
+                            "&taskStartDate=" + taskStartDate +
+                            "&taskDueDate=" + taskDueDate +
+                            "&taskProgress=" + taskProgress;
+
+        // AJAX post to get all tasks
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function()
+        {
+            if(this.readyState == 4 && this.status == 200) {
+                var ajaxReturn = JSON.parse(this.responseText);
+                for (var key in ajaxReturn){
+                    if (key == "error") {
+                        alert("Error returned trying to update tasks: " + ajaxReturn["error"]);
+                    }
+                }
+            }
+        }
+    
+        req.open('POST', taskCreateEndpoint, true);
+        req.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+        req.send();
+    }
+
     const task = new Object();
 
     task.taskName = taskName;
@@ -107,6 +136,46 @@ function createTask(taskName, taskStartDate, taskDueDate, taskProgress) {
     window.kanbanTasks++;
 }
 
+function userCreateTask() {
+    var taskName = prompt("Enter a name for the task:");
+    if (taskName === ""){
+        alert("Task name cannot be empty!");
+        return;
+    }
+    var taskStartDate = prompt("Enter a start date for the task in MM/DD/YYYY format:");
+    var taskDueDate = prompt("Enter a due date for the task in MM/DD/YYYY format:");
+    var alphaRegExp = /[a-zA-Z]/g;
+    if ((taskStartDate.length != 10 || taskDueDate.length != 10) || 
+        (alphaRegExp.test(taskStartDate) || alphaRegExp.test(taskDueDate))) {
+            alert("Failed to create task, invalid task dates! Needs to be in MM/DD/YYYY format!");
+            return;
+    }
+
+    // Convert dates to epoch
+    var epochStartDate = toEpoch(taskStartDate);
+    var epochDueDate = toEpoch(taskDueDate);
+
+    if (epochStartDate > epochDueDate) {
+        alert("Failed to create task, invalid task dates! due date needs to be later than start date!");
+        return;
+    }
+    var taskProgress = prompt("Enter the state of the task (\"To-Do\", \"In-Progress\", or \"Done\"):");
+    switch(taskProgress.toLowerCase()) {
+        case "to-do":
+            createTask(taskName, epochStartDate, epochDueDate, "todo", "user");
+            break;
+        case "in-progress":
+            createTask(taskName, epochStartDate, epochDueDate, "inprog", "user");
+            break;
+        case "done":
+            createTask(taskName, epochStartDate, epochDueDate, "done", "user");
+            break;
+        default:
+            alert("Failed to create task, invalid task state! Needs to be (\"To-Do\", \"In-Progress\", or \"Done\").");
+            return;
+    }
+}
+
 // Function to populate all kanban board tasks
 function populateKanban(uid) {
     tasksEndpoint = "/user/tasks/uid=" + uid
@@ -138,7 +207,7 @@ function taskChangeState(taskName, newState){
 
     var formNewState = newState.replace("kanban-", "")
 
-    tasksChangeEndpoint = "/user/tasks/edit/uid=" + window.userID + "&taskName=" + taskName + "&newState=" + formNewState;
+    tasksChangeEndpoint = "/user/tasks/edit?uid=" + window.userID + "&taskName=" + taskName + "&newState=" + formNewState;
 
     // AJAX post to get all tasks
     var req = new XMLHttpRequest();
@@ -157,4 +226,10 @@ function taskChangeState(taskName, newState){
     req.open('POST', tasksChangeEndpoint, true);
     req.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
     req.send();
+}
+
+
+// UTILS
+function toEpoch (date) {
+    return Date.parse(date);
 }

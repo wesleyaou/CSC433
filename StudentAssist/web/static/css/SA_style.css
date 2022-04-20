@@ -56,9 +56,18 @@ body {
 }
 
 /* Kanban Board/Home Stylings */
+.kanban-display {
+    display: grid;
+    grid-template-rows: 80% 20%;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    justify-items: center;
+}
+
 .kanban-board {
     display: grid;
-    grid-template-columns: 33% 33% 33%;
+    grid-template-columns: 31% 31% 31% 3%;
     justify-items: center;
     width: 100%;
 }
@@ -81,4 +90,43 @@ body {
     border-radius: 20px;
     text-align: center;
     margin-top: 10px;
+}
+
+.kanban-add {
+    width:100%
+}
+
+.kanban-add > button {
+    background-color: inherit;
+    text-align: center;
+    border: none;
+    outline: none;
+}
+
+#add-task-img:active, #add-task-img:hover {
+    -webkit-filter: invert(1);
+    filter: invert(1);
+}
+
+
+#kanban-delete {
+    display: grid;
+    background-color: red;
+    width: 80%;
+    height: 80%;
+    border-radius: 20px;
+    text-align: center;
+    justify-items: center;
+    position: relative;
+
+    width: 50%;
+}
+
+#kanban-delete > img {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }

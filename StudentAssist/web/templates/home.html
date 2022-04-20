@@ -20,21 +20,31 @@
       <div id="notification"></div>
     </div>
     <div class="tab-content" id="home">
-      <div class="kanban-board">
-        <div class="kanban-column" id="kanban-todo" ondrop="drop(event)" ondragover="allowDrop(event)">
-          <div class="kanban-head">
-            <h2>To-Do</h2>
+      <div class="kanban-display">
+        <div class="kanban-board">
+          <div class="kanban-column" id="kanban-todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="kanban-head">
+              <h2>To-Do</h2>
+            </div>
+          </div>
+          <div class="kanban-column" id="kanban-inprog" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="kanban-head">
+              <h2>In-Progress</h2>
+            </div>
+          </div>
+          <div class="kanban-column" id="kanban-done" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="kanban-head">
+              <h2>Done</h2>
+            </div>
+          </div>
+          <div class="kanban-add">
+            <button id="add-task" onclick="userCreateTask()">
+              <img id="add-task-img" src="{{ url_for('static', filename='icons/plus.png') }}" width="80" height="80" />
+            </button>
           </div>
         </div>
-        <div class="kanban-column" id="kanban-inprog" ondrop="drop(event)" ondragover="allowDrop(event)">
-          <div class="kanban-head">
-            <h2>In-Progress</h2>
-          </div>
-        </div>
-        <div class="kanban-column" id="kanban-done" ondrop="drop(event)" ondragover="allowDrop(event)">
-          <div class="kanban-head">
-            <h2>Done</h2>
-          </div>
+        <div id="kanban-delete" ondrop="drop(event)" ondragover="allowDrop(event)">
+          <img id="delete-task" src="{{ url_for('static', filename='icons/trash.png') }}" width="80" height="80" />
         </div>
       </div>
     </div>
