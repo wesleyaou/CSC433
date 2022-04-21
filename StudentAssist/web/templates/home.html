@@ -43,8 +43,8 @@
             </button>
           </div>
         </div>
-        <div id="kanban-delete" ondrop="drop(event)" ondragover="allowDrop(event)">
-          <img id="delete-task" src="{{ url_for('static', filename='icons/trash.png') }}" width="80" height="80" />
+        <div class="kanban-remove" id="kanban-delete" ondrop="drop(event)" ondragover="allowDrop(event)">
+          <img id="kanban-delete" src="{{ url_for('static', filename='icons/trash.png') }}" width="80" height="80" />
         </div>
       </div>
     </div>

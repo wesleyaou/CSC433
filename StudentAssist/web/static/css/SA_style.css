@@ -109,7 +109,7 @@ body {
 }
 
 
-#kanban-delete {
+.kanban-remove {
     display: grid;
     background-color: red;
     width: 80%;
@@ -122,7 +122,7 @@ body {
     width: 50%;
 }
 
-#kanban-delete > img {
+.kanban-remove > img {
     margin: 0;
     position: absolute;
     top: 50%;
