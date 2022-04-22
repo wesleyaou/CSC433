@@ -13,6 +13,8 @@ class TimeKeeper:
         self.ONE_HOUR = {"seconds": 3600, "phrase": "1 hour"}
         self.SIX_HOURS = {"seconds": 21600, "phrase": "6 hours"}
         self.ONE_DAY = {"seconds": 86400, "phrase": "1 day"}
+        self.TWO_DAYS = {"seconds" : 172800, "phrase" : "2 days"}
+        self.ONE_WEEK = {"seconds": 604800, "phrase": "1 week"}
 
         # Interval to check for tasks that could be within a threshold
         self.INTERVAL = 118
@@ -25,7 +27,7 @@ class TimeKeeper:
     # Allows about a 120 second (2 min) window. Update interval is 1.25 mins, but this gives room for error
     # in Python's timekeeping.
     def compare_time_ranges(self, timeDiff):
-        for threshold in [self.ONE_HOUR, self.SIX_HOURS, self.ONE_DAY]:
+        for threshold in [self.ONE_HOUR, self.SIX_HOURS, self.ONE_DAY, self.TWO_DAYS, self.ONE_WEEK]:
             threshold_floor = threshold["seconds"] - 60
             threshold_ceil = threshold["seconds"] + 60
             if threshold_ceil > timeDiff > threshold_floor:
