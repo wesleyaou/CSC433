@@ -7,6 +7,10 @@
       "logLevel": "INFO",
       "logToFile": false,
       "logPath": ""
+    },
+    "notifications": {
+      "email" : "studentassistnotification@gmail.com",
+      "password" : "csc433final!"
     }
   }
 }

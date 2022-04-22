@@ -1,6 +1,6 @@
-# RESTful naming conventions https://restfulapi.net/resource-naming/
-
 from flask import jsonify, render_template, request
+from notify import NotificationManager
+from time_keeper import TimeKeeper
 from config import sa_cfg
 from __init__ import app
 import db_connector
@@ -11,9 +11,13 @@ logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger()
 log.info("Starting StudentAssist!") 
 
-# Initialize the app object and set the static/templates folders
-# app = Flask(__name__, static_folder="web/static", template_folder="web/templates")
+# Initialize the Notification Manager to communicate events to the users
+notif_man = NotificationManager()
 
+# Initialize the task time manager to keep track of task due dates
+# (actually run call is called in main())
+timeKeeper = TimeKeeper(notif_man)
+timeKeeper.run()
 
 """ 
 ==================

@@ -71,11 +71,12 @@ Task Functionality (object, create, delete)
 
 function createTask(taskName, taskStartDate, taskDueDate, taskProgress, source) {
     if (source === "user"){
-        taskCreateEndpoint = "/create/task?uid=" + window.userID + 
+        taskCreateEndpoint = encodeURI("/create/task?uid=" + window.userID + 
                             "&taskName=" + taskName + 
                             "&taskStartDate=" + taskStartDate +
                             "&taskDueDate=" + taskDueDate +
-                            "&taskProgress=" + taskProgress;
+                            "&taskProgress=" + taskProgress).replace("#", "%23");
+        
 
         // AJAX post to get all tasks
         var req = new XMLHttpRequest();
@@ -141,13 +142,19 @@ function userCreateTask() {
     if (taskName === ""){
         alert("Task name cannot be empty!");
         return;
+    } 
+    else if (taskName == null) {
+        return;
     }
-    var taskStartDate = prompt("Enter a start date for the task in MM/DD/YYYY format:");
-    var taskDueDate = prompt("Enter a due date for the task in MM/DD/YYYY format:");
+    var taskStartDate = prompt("Enter a start time for the task in MM/dd/yyyy hh:mm format:");
+    var taskDueDate = prompt("Enter a end time for the task in MM/dd/yyyy hh:mm format:");
     var alphaRegExp = /[a-zA-Z]/g;
-    if ((taskStartDate.length != 10 || taskDueDate.length != 10) || 
+    if (taskStartDate == null || taskDueDate ==null){
+        return;
+    }
+    else if ((taskStartDate.length != 16 || taskDueDate.length != 16) || 
         (alphaRegExp.test(taskStartDate) || alphaRegExp.test(taskDueDate))) {
-            alert("Failed to create task, invalid task dates! Needs to be in MM/DD/YYYY format!");
+            alert("Failed to create task, invalid task dates! Needs to be in MM/dd/yyyy hh:mm format!");
             return;
     }
 
@@ -159,7 +166,12 @@ function userCreateTask() {
         alert("Failed to create task, invalid task dates! due date needs to be later than start date!");
         return;
     }
-    var taskProgress = prompt("Enter the state of the task (\"To-Do\", \"In-Progress\", or \"Done\"):");
+    var taskProgress = prompt("Enter the state of the task (\"To-Do\", \"In-Progress\", or \"Done\"):", "To-Do");
+    
+    if (taskProgress == null){
+        return;
+    }
+    
     switch(taskProgress.toLowerCase()) {
         case "to-do":
             createTask(taskName, epochStartDate, epochDueDate, "todo", "user");
@@ -207,7 +219,7 @@ function taskChangeState(taskName, newState){
 
     var formNewState = newState.replace("kanban-", "")
 
-    tasksChangeEndpoint = "/user/tasks/edit?uid=" + window.userID + "&taskName=" + taskName + "&newState=" + formNewState;
+    tasksChangeEndpoint = encodeURI("/user/tasks/edit?uid=" + window.userID + "&taskName=" + taskName + "&newState=" + formNewState);
 
     // AJAX post to get all tasks
     var req = new XMLHttpRequest();
@@ -231,5 +243,5 @@ function taskChangeState(taskName, newState){
 
 // UTILS
 function toEpoch (date) {
-    return Date.parse(date);
+    return Date.parse(date) * (10**-3);
 }

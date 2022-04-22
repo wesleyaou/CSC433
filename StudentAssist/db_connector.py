@@ -32,9 +32,6 @@ class User(db.Model):
     password = db.Column(db.String(20), unique=False, nullable=False)
     emailNotifs = db.Column(db.String(20), unique=False, nullable=False)
     phoneNotifs = db.Column(db.String(20), unique=False, nullable=False)
- 
-    # def __repr__(self):
-    #     return f"Name : {self.first_name}, Age: {self.age}"
 
 class Tasks(db.Model):
     __tablename__ = "Tasks"
@@ -106,6 +103,20 @@ def getTasks(userID):
         log.error("couldn't load database to pull tasks!")
         return {"error" : "couldn't load database!"}
 
+def getAllTasks():
+    if db:
+        tasks = []
+        result = db.session.query(Tasks)
+        for row in result:
+            tasks.append({"userID" : row.userID, 
+                        "taskName" : row.taskName, 
+                        "taskStartDate" : row.taskStartDate,
+                        "taskDueDate" : row.taskDueDate,
+                        "taskProgress" : row.taskProgress})
+        return {"tasks" : tasks}
+    else:
+        log.error("couldn't load database to pull tasks!")
+        return {"error" : "couldn't load database!"}
 
 def getUser(userID):
     if db:
@@ -126,9 +137,9 @@ def getUser(userID):
 
 # Brief informal testing
 if __name__ == "__main__":
-    # p = User(firstName="test", lastName="user", emailAddress="test@gmail.com", password="testPass", emailNotifs="true", phoneNotifs="false")
-    # db.session.add(p)
-    # db.session.commit()
+    p = User(firstName="Wesley", lastName="Appler", emailAddress="wesleyaou@protonmail.com", phoneNumber="3153352552@vtext.com", password="testPass", emailNotifs="true", phoneNotifs="true")
+    db.session.add(p)
+    db.session.commit()
     # t = Tasks(userID=2, taskName="CSC433 Final Project #5", taskStartDate="02/14/2022", taskDueDate="04/27/2022", taskProgress="inprog")
     # db.session.add(t)
     # db.session.commit()
@@ -136,11 +147,11 @@ if __name__ == "__main__":
     # engine = db.create_engine("sqlite:///" + db_path, {})
     # result = engine.execute(query).fetchall()
     # print(result)
-    tasks = getTasks(2)["tasks"]
-    for task in tasks:
-        print(task)
-        print("*" * 16)
+    # tasks = getTasks(2)["tasks"]
+    # for task in tasks:
+    #     print(task)
+    #     print("*" * 16)
 
-    print(getUser(2))
+    # print(getUser(2))
 
-    changeTask(2, "CSC433 Final Project #3", "inprog")
+    # changeTask(2, "CSC433 Final Project #3", "inprog")
