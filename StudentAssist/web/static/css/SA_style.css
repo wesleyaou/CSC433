@@ -6,8 +6,10 @@ html, body {
 
 body {
     display: grid;
-    grid-template-columns: 8% 92%;
+    grid-template-columns: 10% 90%;
     height: 100%;
+    background-color: #313552;
+    margin: 0px;
 }
 
 @font-face{
@@ -20,45 +22,63 @@ body {
   }
 
 /* Side Menu Stylings */
-.menu {
-    position: relative;
+.sidebar {
+    display: block;
     height: 100%;
+    text-align: center;
+    background-color: #eee6ce;
+    width: 100%;
+}
+
+.sa-logo {
+    height: 100px;
+    width: 100%;
+    border-bottom: 3px solid #a29d8d;
+}
+
+.user-info {
+    height: 50px;
+    padding-top: 40px;
+    border-bottom: 3px solid #a29d8d;
     text-align: center;
 }
 
 .menu-btns {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
+    display: inline-block;
     width: 100%;
 }
 
 .tab-btn {
-    width: 100%;
-    height: 140px;
+    width: 90%;
+    height: 60px;
     text-align: center;
-    border: 0px;
+    border-bottom: 3px solid #a29d8d;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    background-color: #eee6ce;
 }
 
-.tab-btn:active, .tab-btn:focus { 
-    background-color: rgb(148, 148, 148);
+.tab-btn:active, .tab-btn:focus, .tab-btn:hover { 
+    background-color: #a29d8d;
+    width: 100%;
 }
 
 .active {
-    background-color: rgb(148, 148, 148);
+    background-color: #a29d8d;
+    width: 100%;
 }
 
 /* Main Content Stylings */
 .content {
     display: grid;
-    grid-template-rows: 10% 90%;
     padding: 10px;
 }
 
 /* Kanban Board/Home Stylings */
 .kanban-display {
     display: grid;
-    grid-template-rows: 80% 20%;
+    grid-template-rows: 10% 70% 20%;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -77,17 +97,26 @@ body {
     width: 80%;
     height: 95%;
     border-radius: 20px;
-    background-color: rgb(176, 25, 25);
+    background-color: #269874;
     text-align: center;
     justify-items: center;
+}
+
+.kanban-content {
+    height: 100%;
+    width: 100%
+}
+
+.kanban-head {
+    border-bottom: 5px solid #eee6ce;
 }
 
 .kanban-task {
     display: inline-block;
     width: 90%;
     height: 6%;
-    background-color: rgb(138, 118, 5);
-    border-radius: 20px;
+    background-color: #2eb086;
+    border-radius: 15px;
     text-align: center;
     margin-top: 10px;
 }
@@ -111,7 +140,7 @@ body {
 
 .kanban-remove {
     display: grid;
-    background-color: red;
+    background-color: #b8405e;
     width: 80%;
     height: 80%;
     border-radius: 20px;
@@ -129,4 +158,80 @@ body {
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+/* Calendar Stylings */
+#cal-display {
+    display: grid;
+    grid-template-rows: 50% 50%;
+    width: 100%;
+    justify-content: center;
+}
+
+/* Formatting for task list */
+.task-list {
+    justify-content: center;
+    width: 96%;
+    display: flex;
+}
+
+.task-list > ul {
+    text-align: center;
+    list-style-type: none;
+    height: 90%;
+    overflow: hidden; 
+    overflow-y: scroll;
+    background-color: #269874;
+    width: 100%;
+    padding: 0px;
+}
+
+.task-list-item {
+    display: inline-block;
+    background-color: #2eb086;
+    width: 80%;
+    height: 75px;
+    border-radius: 10px;
+    margin: 10px;
+    padding-top: 10px;
+
+}
+
+.task-list-item > p {
+    margin: 0;
+}
+
+#cal-container {
+    background-color: #269874;
+    width: 96%;
+    text-align: center;  
+    padding-bottom: 20px; 
+}
+
+#cal-container > h2 {
+    font-size: xx-large;
+}
+
+#cal-container > table > tbody > tr > td {
+    height: 50px;
+    width: 50px;
+    padding: 0px;
+    text-align: center;
+}
+
+.cal-day {
+    background-color: #2eb086;
+}
+
+.cal-day:hover {
+    background-color: #269874;
+}
+
+.active-day, .active-day:hover {
+    background-color: #b8405e;
+}
+
+/* Class for current date */
+.today {
+    border: dotted black 2px;
 }

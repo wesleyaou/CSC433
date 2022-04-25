@@ -82,6 +82,7 @@ def changeTask(userID, taskName, newState):
         else:
             db.session.query(Tasks).filter(Tasks.userID == userID, Tasks.taskName == taskName).update({"taskProgress" : newState})
             db.session.commit()
+        log.debug("Updated task: \"" + taskName + "\" for user ID: " + str(userID) + " to have a status of \"" + newState + "\"")
         return {"success" : "task updated"}
     else:
         log.error("couldn't load database!")

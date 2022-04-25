@@ -1,10 +1,11 @@
-from flask import jsonify, render_template, request
+from flask import jsonify, render_template, request, redirect, url_for
 from notify import NotificationManager
 from time_keeper import TimeKeeper
 from config import sa_cfg
 from __init__ import app
 import db_connector
 import logging
+import urllib.parse
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -24,6 +25,11 @@ timeKeeper.run()
 UI HTML Pages
 ================== 
 """
+
+# If just the url is typed, redirect to the home page
+@app.route("/", methods=["GET"])
+def redirect_home():
+    return redirect(url_for("serve_home"))
 
 # Returns the main landing page of StudentAssist
 @app.route("/home", methods=["GET"])
@@ -59,8 +65,9 @@ def changeTaskState():
     # Pull the query params
     params = request.args
     uid = params.get("uid")
-    taskName = params.get("taskName")
-    newState = params.get("newState")
+    taskName = urllib.parse.unquote(params.get("taskName"))
+    newState = urllib.parse.unquote(params.get("newState"))
+    
     return jsonify(db_connector.changeTask(uid, taskName, newState))
 
 
