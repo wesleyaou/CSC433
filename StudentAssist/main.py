@@ -1,9 +1,11 @@
-from flask import jsonify, render_template, request, redirect, url_for
+from crypt import methods
+from flask import jsonify, render_template, request, redirect, url_for, session
 from notify import NotificationManager
 from time_keeper import TimeKeeper
 from config import sa_cfg
 from __init__ import app
 import db_connector
+import login as login_utils
 import logging
 import urllib.parse
 
@@ -20,6 +22,36 @@ notif_man = NotificationManager()
 timeKeeper = TimeKeeper(notif_man)
 timeKeeper.run()
 
+
+""" 
+==================
+Authentication endpoints
+================== 
+"""
+
+# Main login REST endpoint
+@app.route("/user/login", methods=["POST"])
+def login():
+    login_result = login_utils.validate_login(request.json["emailAddress"], request.json["password"])
+    log.info("A login was attempted using email: \"" + request.json["emailAddress"] + "\"...")
+    if login_result.get("uid"):
+        log.info("Login attempt for \"" + request.json["emailAddress"] + "\" was successful, resulting in " + str(login_result.get("uid")))
+        session["logged_in"] = True
+    else:
+        log.info("Login attempt for \"" + request.json["emailAddress"] + "\" failed!")
+
+    return login_result
+
+# Main login page
+@app.route("/login", methods=["GET"])
+def serve_login():
+    return render_template("login.html")
+
+# Validate the user's email
+@app.route("/user/validate-email", methods=["POST"])
+def validate_email():
+    return jsonify(login_utils.validate_email(request.json["emailAddress"]))
+
 """ 
 ==================
 UI HTML Pages
@@ -34,6 +66,9 @@ def redirect_home():
 # Returns the main landing page of StudentAssist
 @app.route("/home", methods=["GET"])
 def serve_home():
+    #if not session.get('logged_in'):
+    #    return redirect(url_for("login"))
+    #else:
     return render_template("home.html")
 
 

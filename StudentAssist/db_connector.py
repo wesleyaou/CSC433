@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_security import UserMixin
 from config import sa_cfg
 from __init__ import app
 import logging
 import os
+import bcrypt
 
 log = logging.getLogger()
 
@@ -22,17 +24,27 @@ else:
     log.error("Failed to find database file at: " + db_path)
 
 # DB Models
-class User(db.Model):
+# Godly user password management concepts from:
+# https://stackoverflow.com/questions/52190989/how-to-encrypt-password-using-python-flask-security-using-bcrypt#52191670
+class User(db.Model, UserMixin):
     __tablename__ = "Users"
     userID = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String(20), unique=False, nullable=False)
     lastName = db.Column(db.String(20), unique=False, nullable=False)
     emailAddress = db.Column(db.String(20), unique=False, nullable=False)
     phoneNumber = db.Column(db.String(20), unique=False, nullable=False)
-    password = db.Column(db.String(20), unique=False, nullable=False)
+    passwordHash = db.Column(db.String(128), unique=False, nullable=False)
     emailNotifs = db.Column(db.String(20), unique=False, nullable=False)
     phoneNotifs = db.Column(db.String(20), unique=False, nullable=False)
 
+    @property
+    def password(self):
+        raise AttributeError('password not readable')
+    
+    @password.setter
+    def password(self, password):
+        self.passwordHash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+        
 class Tasks(db.Model):
     __tablename__ = "Tasks"
     userID = db.Column(db.Integer, db.ForeignKey(User.userID), unique=False, primary_key=True)
@@ -134,6 +146,23 @@ def getUser(userID):
     else:
         log.error("couldn't load database to pull user!")
         return {"error" : "couldn't load database!"}
+
+def getAllUsers():
+    if db:
+        users = []
+        result = db.session.query(User)
+        for row in result:
+            users.append({"userID" : row.userID, 
+                        "passwordHash" : row.passwordHash, 
+                        "emailAddress" : row.emailAddress})
+
+        return {"users" : users}
+    else:
+        log.error("couldn't load database to pull tasks!")
+        return {"error" : "couldn't load database!"}
+
+def verifyPassword(password, hashed_password):
+    return bcrypt.checkpw(password.encode("utf-8"), hashed_password)
 
 
 # Brief informal testing

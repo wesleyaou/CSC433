@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Title & Link to CSS file-->
+        <title>StudentAssist</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
+        <script src="{{ url_for('static', filename='js/utils.js') }}"> </script>
+      </head>
+      <body>
+          <div class="account-fields">
+              <div id="email-div">
+                <input type="text" placeholder="Email" id="email-in">
+                <input type="submit" value="Submit" id="email-submit" onclick="readEmailIn()">
+              </div>
+              <div id="password-div">
+                <h2 id="email-display"></h2>
+                <div class="password-input">
+                    <input type="password" placeholder="Password" id="password-in">
+                    <input type="submit" value="Submit" id="pass-submit" onclick="submitLogin()">
+                </div>
+              </div>
+              <div id="register-div">
+                <div id="name-input">
+                    <input type="text" placeholder="First Name" id="firstname-in">
+                    <input type="text" placeholder="Last Name" id="lastname-in">
+                </div>
+                <div id="notif-info">
+                    <input type="text" placeholder="Phone Number (Optional)" id="phoneNumber-in">
+
+                    <div id="pick-notif">
+                        <label for="phoneNotifs">
+                            <input type="checkbox" id="phone-notifs-box" name="notif-prefs" value="phoneNotifs"> Phone
+                        </label>
+                        <label for="emailNotifs">
+                            <input type="checkbox" id="email-notifs-box" name="notif-prefs" value="emailNotifs"> Email
+                        </label>
+                    </div>
+                </div>
+                <input type="submit" value="Submit" id="reg-submit" onclick="submitReg()">
+              </div>
+          </div>
+      </body>
+</html>

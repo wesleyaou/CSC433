@@ -1,6 +1,6 @@
 // Number of total kanban tasks
 window.kanbanTasks = 0;
-window.userID = 2;
+window.userID;
 window.userTasks = [];
 
 /* ==================
@@ -231,8 +231,6 @@ function pullUserTasks () {
             }
             taskArray = ajaxReturn["tasks"];
             if (JSON.stringify(window.userTasks.sort()) !== JSON.stringify(taskArray.sort())) {
-                console.log("WINDOW TASKS: " + JSON.stringify(window.userTasks.sort()));
-                console.log("AJAX TASKS: " + JSON.stringify(taskArray.sort()));
                 window.userTasks = taskArray;
                 populateKanban();
                 createCalendar();
@@ -473,11 +471,108 @@ Startup Behavior
 ================== */
 
 function startStudentAssist() {
+    var uid = localStorage.getItem("_uid");
+    if (!uid) return false;
+    window.userID = uid;
+    localStorage.removeItem("_uid");
     selectDefault();
     pullUserTasks();
     createCalendar();
 }
 
+/* ==================
+Login functions
+================== */
+
+function readEmailIn(){
+    var emailAddress = document.getElementById("email-in").value;
+
+    if (emailAddress === "" || emailAddress === " " || 
+        !(emailAddress.includes("@") || !(emailAddress.includes(".")))){
+            alert("Please enter a valid email address!");
+            return
+    }
+
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function()
+    {
+        if(this.readyState == 4 && this.status == 200) {
+            var ajaxReturn = JSON.parse(this.responseText);
+            window.emailAddress = emailAddress;
+            if (ajaxReturn.email === true) {
+                console.log("login");
+                startLogin();
+            } else if (ajaxReturn.email === false) {
+                console.log("Reg");
+                startRegistration();
+            }
+        }
+    }
+
+    req.open('POST', "/user/validate-email", true);
+    req.setRequestHeader("Content-type", "application/json")
+    req.send(JSON.stringify({"emailAddress" : emailAddress}));
+}
+
+function startRegistration() {
+    var emailInput = document.getElementById("email-div");
+    emailInput.style.display = "none";
+
+    var passwordInput = document.getElementById("password-div");
+    passwordInput.style.display = "grid";
+
+    var passwordSubmit = document.getElementById("pass-submit")
+    passwordSubmit.style.display = "none";
+
+    var emailDisp = document.getElementById("email-display");
+    emailDisp.innerHTML = window.emailAddress;
+
+    var regDiv = document.getElementById("register-div");
+    regDiv.style.display = "grid";
+
+}
+
+function startLogin() {
+    var emailInput = document.getElementById("email-div");
+    emailInput.style.display = "none";
+
+    var passwordInput = document.getElementById("password-div");
+    passwordInput.style.display = "grid";
+
+    var emailDisp = document.getElementById("email-display");
+    emailDisp.innerHTML = window.emailAddress;
+
+}
+
+function submitLogin() {
+    var password = document.getElementById("password-in").value;
+
+    if (password === "" || emailAddress === " " || password.length < 6){
+            alert("Invalid password!");
+            return
+    }
+
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function()
+    {
+        if(this.readyState == 4 && this.status == 200) {
+            var ajaxReturn = JSON.parse(this.responseText);
+            window.emailAddress = emailAddress;
+            if (ajaxReturn.uid != null) {
+                localStorage.setItem("_uid", ajaxReturn.uid);
+                console.log("LOCAL: " + localStorage.getItem("_uid"))
+                window.location = "/home";
+                return
+            } else {
+                alert(ajaxReturn.error);
+            }
+        }
+    }
+
+    req.open('POST', "/user/login", true);
+    req.setRequestHeader("Content-type", "application/json")
+    req.send(JSON.stringify({"emailAddress" : window.emailAddress, "password" : password}));
+}
 
 /* ==================
 General Utils
