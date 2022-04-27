@@ -1,8 +1,7 @@
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin
-from config import sa_cfg
-from __init__ import app
+from StudentAssist.config import sa_cfg
+from StudentAssist.__init__ import app
 import logging
 import os
 import bcrypt
@@ -13,14 +12,11 @@ db_path = sa_cfg["database"]["path"]
 
 db = None
 
-def dbExists(db_path):
-    return os.path.isfile(db_path)
-
-if dbExists(db_path=db_path):
+try:
     # Initialize the database connector
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + db_path
     db = SQLAlchemy(app)
-else:
+except:
     log.error("Failed to find database file at: " + db_path)
 
 # DB Models

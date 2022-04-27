@@ -1,7 +1,7 @@
 from datetime import datetime
-from config import sa_cfg
+from StudentAssist.config import sa_cfg
 from email.message import EmailMessage
-import db_connector
+import StudentAssist.db_connector as db_connector
 import logging
 import smtplib
 

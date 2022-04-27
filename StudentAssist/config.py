@@ -13,14 +13,14 @@ LOGGING_LUT = {
     "CRITICAL" : logging.CRITICAL}
 
 
-config_file = "config.json"
+config_file = "StudentAssist/config.json"
 
 def generate_config():
     log.info("Attemping to create config file at: " + config_file)
     with open(config_file, "w") as cfg:
         # Populate the config with a skeleton of the config
         config_contents = {"StudentAssist" : {
-                                    "database" : {"path" : "database/StudentAssist.db"},
+                                    "database" : {"path" : "StudentAssist/database/StudentAssist.db"},
                                     "logging" : {"logLevel" : "INFO", "logToFile" : False, "logPath" : ""}}}
         
         cfg.writelines(json.dumps(config_contents, indent=2))

@@ -1,10 +1,10 @@
 from flask import jsonify, render_template, request, redirect, url_for, session
-from notify import NotificationManager
-from time_keeper import TimeKeeper
-from config import sa_cfg
-from __init__ import app
-import db_connector
-import login as login_utils
+from StudentAssist.notify import NotificationManager
+from StudentAssist.time_keeper import TimeKeeper
+from StudentAssist.config import sa_cfg
+from StudentAssist.__init__ import app
+import StudentAssist.db_connector as db_connector
+import StudentAssist.login as login_utils
 import logging
 import urllib.parse
 

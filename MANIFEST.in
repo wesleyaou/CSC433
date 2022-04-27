@@ -1,3 +1,5 @@
 include .gitignore
+include StudentAssist/config.json
+include StudentAssist/database/StudentAssist.db
 graft StudentAssist/web/templates/
-graft StudentAssist/web/static/ 
+graft StudentAssist/web/static/

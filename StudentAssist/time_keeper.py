@@ -1,7 +1,8 @@
+import StudentAssist.db_connector as db_connector
 import logging
 import threading
 import time
-import db_connector
+
 
 
 class TimeKeeper:
