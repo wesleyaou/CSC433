@@ -1,0 +1,95 @@
+@font-face{
+    font-family:Futura;
+    src: url("Futura.ttf");
+  }
+  
+  *{
+    font-family: Futura;
+  }
+
+body {
+    display: grid;
+    justify-items: center;
+    width: 100%;
+    background-color: #eee6ce;
+}
+
+.account-fields {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    width: 1000px;
+}
+
+.sa-logo {
+    display: grid;
+    justify-items: center;
+    padding: 50px;
+    padding-top: 15%;
+}
+
+.sa-logo > img {
+    width: 25%;
+    height: auto;
+}
+
+input[type=text], input[type=password] {
+    width: 350px;
+    height: 36px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+#email-div {
+    width: 100%;
+}
+
+#password-div {
+    width: 100%;
+    display: none;
+    justify-content: center;
+}
+
+.password-input {
+    width: 100%;
+}
+
+#register-div {
+    width: 100%;
+    display: none;
+    justify-content: center;
+}
+
+#name-input > input {
+    width: 172px;
+}
+
+#notif-info > div {
+    padding-bottom: 6px;
+    border-bottom: 2px solid #a29d8d;
+}
+
+#pick-carrier {
+    display: none;
+    justify-content: center;
+}
+
+#phone-notifs-label {
+    display: none;
+}

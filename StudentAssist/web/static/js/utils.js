@@ -1,10 +1,11 @@
 // Number of total kanban tasks
 window.kanbanTasks = 0;
-window.userID = 2;
+window.userID;
 window.userTasks = [];
+window.userInfo;
 
 /* ==================
-Tab Functionality
+Tab/Sidebar Functionality
 ================== */
 
 function openTab(evt, TabName) {
@@ -32,6 +33,50 @@ function openTab(evt, TabName) {
 function selectDefault() {
     // For default tab
     document.getElementById("home-btn").click();
+}
+
+function populateUserInfo(userInfo) {
+    userName = document.getElementById("user-name");
+    userAvi = document.getElementById("user-avi");
+
+    nameFirstLetter = document.createTextNode(userInfo.firstName.charAt(0));
+    fullNameDom = document.createTextNode(userInfo.firstName + " " + userInfo.lastName);
+    
+    userAvi.appendChild(nameFirstLetter);
+    userName.appendChild(fullNameDom);
+}
+
+/* ==================
+User Functionality
+================== */
+function getUserInfo() {
+    getUserEndpoint = "/user/info?uid=" + window.userID;
+
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function()
+    {
+        if(this.readyState == 4 && this.status == 200) {
+            var ajaxReturn = JSON.parse(this.responseText);
+            for (var key in ajaxReturn){
+                if (key === "error") {
+                    alert("Error returned trying to retrieve user info: " + ajaxReturn["error"]);   
+                } else if (key === "user") {
+                    if (ajaxReturn.user === null){
+                        window.location = "/login"
+                    } else {
+                        window.userInfo = ajaxReturn.user;
+                        populateUserInfo(ajaxReturn.user);
+                        populateSettings(ajaxReturn.user);
+                    }
+                }
+            }
+        }
+    }
+
+
+    req.open('POST', getUserEndpoint, true);
+    req.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    req.send();
 }
 
 
@@ -216,7 +261,7 @@ function taskChangeState(taskName, newState){
 
 
 function pullUserTasks () {
-    tasksEndpoint = "/user/tasks/uid=" + window.userID;
+    tasksEndpoint = "/user/tasks?uid=" + window.userID;
 
     // AJAX post to get all tasks
     var req = new XMLHttpRequest();
@@ -231,8 +276,6 @@ function pullUserTasks () {
             }
             taskArray = ajaxReturn["tasks"];
             if (JSON.stringify(window.userTasks.sort()) !== JSON.stringify(taskArray.sort())) {
-                console.log("WINDOW TASKS: " + JSON.stringify(window.userTasks.sort()));
-                console.log("AJAX TASKS: " + JSON.stringify(taskArray.sort()));
                 window.userTasks = taskArray;
                 populateKanban();
                 createCalendar();
@@ -371,8 +414,8 @@ function createTaskList(currentDate) {
             var taskNameDom = document.createElement("p");
             taskNameDom.appendChild(document.createTextNode(tasksForMonth[i]["taskName"]))
             var taskDueDom = document.createElement("p");
-            var taskDueDate = new Date((parseInt(taskArray[i]["taskDueDate"]) * (10 ** 3))).toLocaleDateString();
-            console.log("TASK DUE: " + taskDueDate);
+            var taskDueDate = new Date((parseFloat(taskArray[i]["taskDueDate"]) * (10 ** 3))).toLocaleDateString();
+            console.log(tasksForMonth[i]["taskName"] + taskDueDate)
             taskDueDom.appendChild(document.createTextNode(taskDueDate));
             taskItemDom.className = "task-list-item cal-" + taskDueDate.split("/")[1]
             var taskProgDom = document.createElement("p");
@@ -473,11 +516,131 @@ Startup Behavior
 ================== */
 
 function startStudentAssist() {
+    var uid = localStorage.getItem("_uid");
+    if (!uid) return false;
+    window.userID = uid;
+    //localStorage.removeItem("_uid"); <--- make this happen on logout
+    getUserInfo();
     selectDefault();
     pullUserTasks();
     createCalendar();
 }
 
+/* ==================
+Settings functions
+================== */
+
+function updateUser(toChange) {
+    var changeAttr;
+    var newValue;
+
+    switch (toChange) {
+        case "password":
+            if (!(validatePassword(newValue))) {
+                return;
+            } else {
+                var password = document.getElementById("password-in").value;
+                changeAttr = toChange;
+                newValue = password;
+            }
+        break;
+        case "phoneNumber":
+            var phoneNumber = document.getElementById("phoneNumber-in").value;
+            var carrier = document.querySelector('input[name="cell-carrier"]:checked').value;
+            if (phoneNumber != ""){
+                if (!(validatePhone(phoneNumber))) {
+                    return;
+                } else {
+                    if (carrier === null || carrier === ""){
+                        alert("Please select a cell phone carrier!");
+                        return;
+                    } else {
+                        changeAttr = toChange;
+                        newValue = phoneNumber + carrier;
+                    }
+                }
+            }
+        break;
+        case "notifPrefs":
+            notifPrefs = document.querySelectorAll('input[name="notif-prefs"]:checked');
+            var phoneNotifs = "false";
+            var emailNotifs = "false";
+            for (i=0;i < notifPrefs.length; i++){
+                if (notifPrefs[i].value === "phoneNotifs") {
+                    phoneNotifs = "true";
+                } else if (notifPrefs[i].value === "emailNotifs") {
+                    emailNotifs = "true";
+                }
+            }
+            changeAttr = toChange;
+            newValue = phoneNotifs + "-" + emailNotifs;
+        break;
+        case "name":
+            var firstName = document.getElementById("firstname-in").value;
+            var lastName = document.getElementById("lastname-in").value;
+            changeAttr = toChange;
+            newValue = firstName + "-" + lastName;
+        break;
+        default:
+            alert("Update user criteria not recognized!");
+            return;
+    }
+
+    userChangeEndpoint = encodeURI("/user/edit?uid=" + window.userID + "&toChange=" + toChange + "&newValue=" + newValue);
+
+    // AJAX post to get all tasks
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function()
+    {
+        if(this.readyState == 4 && this.status == 200) {
+            var ajaxReturn = JSON.parse(this.responseText);
+            for (var key in ajaxReturn){
+                if (key == "error") {
+                    alert("Error returned trying to update account: " + ajaxReturn["error"]);
+                } else {
+                    alert(ajaxReturn.success);
+                }
+            }
+        }
+    }
+
+    req.open('POST', userChangeEndpoint, true);
+    req.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    req.send();
+}
+
+function populateSettings(userInfo) {
+    console.log(userInfo);
+    var password = document.getElementById("password-in");
+    password.value = ""
+
+    var phoneNumber = document.getElementById("phoneNumber-in");
+    phoneNumber.value = userInfo.phoneNumber.split("@")[0];
+
+    var firstName = document.getElementById("firstname-in");
+    firstName.value = userInfo.firstName;
+
+    var lastName = document.getElementById("lastname-in");
+    lastName.value = userInfo.lastName;
+
+    if (userInfo.emailNotifs === "true") {
+        var emailNotifs = document.getElementById("email-notifs-box");
+        emailNotifs.checked = true;
+    }
+    if (userInfo.phoneNotifs === "true") {
+        var phoneNotifs = document.getElementById("phone-notifs-box");
+        phoneNotifs.checked = true;
+    }
+}
+
+/* ==================
+Login functions
+================== */
+
+function logout() {
+    window.userID = null;
+    window.location = "/logout";
+}
 
 /* ==================
 General Utils
@@ -487,4 +650,29 @@ function toEpoch (date) {
     return Date.parse(date) * (10**-3);
 }
 
+/* ==================
+Validation functions
+================== */
+
+function validatePassword(password) {
+    if (password === "" || 
+        password === " " ||
+        password.length < 6) {
+    alert("Password entered does not meet required criteria!")
+    return false;
+    }
+
+    return true;
+}
+
+function validatePhone(phoneNumber) {
+    var alphaRegExp = /[a-zA-Z]/g;
+    console.log(phoneNumber.length)
+    if ((alphaRegExp.test(phoneNumber) || phoneNumber.length < 10)) {
+        alert("Invalid phone number entered!")
+        return false;
+    }
+    
+    return true;
+}
 

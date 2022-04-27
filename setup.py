@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="StudentAssist",
-    version="0.0.1",
+    version="1.0.0",
     author="A+ Labs",
     description="StudentAssist is a Utica College CSC433 Final Project",
     long_description=long_description,
@@ -19,7 +19,7 @@ setup(
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: Unix",
     ],
-    install_requires=["flask"],
+    install_requires=["flask", "bcrypt", "flask-sqlalchemy", "flask-security"],
     packages=["StudentAssist"],
     include_package_data=True,
     package_data={"StudentAssist": ["StudentAssist/web/*", "tests/*"]},

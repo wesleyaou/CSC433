@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Title & Link to CSS file-->
+        <title>StudentAssist</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
+        <script src="{{ url_for('static', filename='js/login.js') }}"> </script>
+      </head>
+      <body>
+          <div class="sa-logo">
+              <img src="{{ url_for('static', filename='icons/sa-logo.png') }}" alt="StudentAssist Logo">
+          </div>
+          <div class="account-fields">
+              <div id="email-div">
+                <input type="text" placeholder="Email" id="email-in">
+                <input type="submit" value="Submit" id="email-submit" onclick="readEmailIn()">
+              </div>
+              <div id="password-div">
+                <div>
+                    <h2 id="email-display"></h2>
+                </div>
+                <div class="password-input">
+                    <input type="password" placeholder="Password" id="password-in">
+                    <input type="submit" value="Submit" id="pass-submit" onclick="submitLogin()">
+                </div>
+              </div>
+              <div id="register-div">
+                <div id="name-input">
+                    <input type="text" placeholder="First Name" id="firstname-in">
+                    <input type="text" placeholder="Last Name" id="lastname-in">
+                </div>
+                <div id="notif-info">
+                    <input type="text" placeholder="Cell Phone Number (Optional)" id="phoneNumber-in">
+                    <div id="pick-carrier">
+                        <h4>Select Cell Phone Service Provider:</h4>
+                        <div>
+                            <label for="@vtext.com">
+                                <input type="radio" id="carrier-verizon" name="cell-carrier" value="@vtext.com", checked="checked"> Verizon
+                            </label>
+                            <label for="@tmomail.net">
+                                <input type="radio" id="carrier-t-mobile" name="cell-carrier" value="@tmomail.net"> T-Mobile
+                            </label>
+                            <label for="@txt.att.net">
+                                <input type="radio" id="carrier-att" name="cell-carrier" value="@txt.att.net"> AT&T
+                            </label>
+                            <label for="@mymetropcs.com">
+                                <input type="radio" id="carrier-metropcs" name="cell-carrier" value="@mymetropcs.com"> MetroPCS
+                            </label>
+                            <label for="@vmobl.com">
+                                <input type="radio" id="carrier-virgmobile" name="cell-carrier" value="@vmobl.com"> Virgin Mobile
+                            </label>
+                        </div>
+                    </div>
+                    <h4>Select preferred notification option (Optional):</h4>
+                    <div id="pick-notif">
+                        <label id="phone-notifs-label" for="phoneNotifs">
+                            <input type="checkbox" id="phone-notifs-box" name="notif-prefs" value="phoneNotifs"> Phone
+                        </label>
+                        <label for="emailNotifs">
+                            <input type="checkbox" id="email-notifs-box" name="notif-prefs" value="emailNotifs"> Email
+                        </label>
+                    </div>
+                </div>
+                <input type="submit" value="Submit" id="reg-submit" onclick="submitReg()">
+              </div>
+          </div>
+      </body>
+</html>

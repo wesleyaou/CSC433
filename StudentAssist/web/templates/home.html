@@ -10,10 +10,14 @@
   <!--Side menu buttons-->
   <div class="sidebar">
     <div class="sa-logo">
-      <h2>StudentAssist</h2>
+      <img id="sa-banner" src="{{ url_for('static', filename='icons/sa-logo.png') }}" alt="StudentAssist Logo">
     </div>
     <div class="user-info">
-      User Info
+      <div id="user-avi">
+      </div>
+      <div class="user-brief">
+        <span id="user-name"></span>
+      </div>
     </div>
     <div class="menu-btns">
       <button class="tab-btn active" id="home-btn" onclick="openTab(event, 'home')">Home</button>
@@ -51,12 +55,12 @@
           </div>
           <div class="kanban-add">
             <button id="add-task" onclick="userCreateTask()">
-              <img id="add-task-img" src="{{ url_for('static', filename='icons/plus.png') }}" width="80" height="80" />
+              <img id="add-task-img" src="{{ url_for('static', filename='icons/plus.png') }}" width="80" height="80" alt="Add Task" />
             </button>
           </div>
         </div>
         <div class="kanban-remove" id="kanban-delete" ondrop="drop(event)" ondragover="allowDrop(event)">
-          <img id="kanban-delete" src="{{ url_for('static', filename='icons/trash.png') }}" width="80" height="80" />
+          <img id="kanban-delete" src="{{ url_for('static', filename='icons/trash.png') }}" width="80" height="80" alt="Delete TaskS" />
         </div>
       </div>
     </div>
@@ -65,7 +69,68 @@
       </div>
     </div>
     <div class="tab-content" id="settings">
-      Settings Test!
+      <div id="settings-display">
+        <div class="account-fields">
+          <h2>Account Settings</h2>
+          <div>
+            <div id="register-div">
+              <div class="settings-item" id="password-div">
+                <h4>Update Password</h4>
+                <input type="password" placeholder="New Password" id="password-in">
+                <input type="submit" value="Submit" id="reg-submit" onclick='updateUser("password")'>
+              </div>
+              <div class="settings-item" id="name-div">
+                <div id="name-input">
+                  <h4>Name</h4>
+                  <input type="text" placeholder="First Name" id="firstname-in">
+                  <input type="text" placeholder="Last Name" id="lastname-in">
+                </div>
+                <input type="submit" value="Submit" id="name-submit" onclick='updateUser("name")'>
+              </div>
+            </div>
+            <div id="notif-info">
+                <div class="settings-item" id="phone-info">
+                  <h4>Phone Number</h4>
+                  <input type="text" placeholder="Cell Phone Number (Optional)" id="phoneNumber-in">
+                  <div id="pick-carrier">
+                      <h4>Select Cell Phone Service Provider:</h4>
+                      <div>
+                          <label for="@vtext.com">
+                              <input type="radio" id="carrier-verizon" name="cell-carrier" value="@vtext.com", checked="checked"> Verizon
+                          </label>
+                          <label for="@tmomail.net">
+                              <input type="radio" id="carrier-t-mobile" name="cell-carrier" value="@tmomail.net"> T-Mobile
+                          </label>
+                          <label for="@txt.att.net">
+                              <input type="radio" id="carrier-att" name="cell-carrier" value="@txt.att.net"> AT&T
+                          </label>
+                          <label for="@mymetropcs.com">
+                              <input type="radio" id="carrier-metropcs" name="cell-carrier" value="@mymetropcs.com"> MetroPCS
+                          </label>
+                          <label for="@vmobl.com">
+                              <input type="radio" id="carrier-virgmobile" name="cell-carrier" value="@vmobl.com"> Virgin Mobile
+                          </label>
+                      </div>
+                  </div>
+                  <input type="submit" value="Submit" id="phone-submit" onclick='updateUser("phoneNumber")'>
+                </div>
+                <div class="settings-item" id="notif-pref-info">
+                  <h4>Select preferred notification option (Optional):</h4>
+                  <div id="pick-notif">
+                      <label for="phoneNotifs">
+                          <input type="checkbox" id="phone-notifs-box" name="notif-prefs" value="phoneNotifs"> Phone
+                      </label>
+                      <label for="emailNotifs">
+                          <input type="checkbox" id="email-notifs-box" name="notif-prefs" value="emailNotifs"> Email
+                      </label>
+                  </div>
+                  <input type="submit" value="Submit" id="notif-submit" onclick='updateUser("notifPrefs")'>
+                </div>
+                <input type="submit" value="Logout" id="logout-btn" onclick='logout()'>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <!--Format the button to show the active tab-->
