@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS "Users" (
 	"lastName"	TEXT,
 	"emailAddress"	TEXT,
 	"phoneNumber"	TEXT,
-	"password"	TEXT,
+	"passwordHash"	TEXT,
 	"emailNotifs"	TEXT,
 	"phoneNotifs"	TEXT,
 	PRIMARY KEY("userID")
