@@ -69,18 +69,20 @@ def createTask(userID, taskName, taskStartDate, taskDueDate, taskProgress):
         log.error("couldn't load database for task creation!")
         return {"error" : "couldn't load database!"}
 
-def createUser(firstName, lastName, emailAddress, password, emailNotifs, phoneNotifs):
+def createUser(firstName, lastName, emailAddress, phoneNumber, password, emailNotifs, phoneNotifs):
     if db:
         newUser = User(firstName=firstName, 
                         lastName=lastName, 
-                        emailAddress=emailAddress, 
+                        emailAddress=emailAddress,
+                        phoneNumber=phoneNumber,
                         password=password, 
                         emailNotifs=emailNotifs, 
                         phoneNotifs=phoneNotifs)
         
         db.session.add(newUser)
         db.session.commit()
-        return {"success" : "user created"}
+
+        return {"success" : "Account created! Please login."}
     else:
         log.error("couldn't load database for user creation!")
         return {"error" : "couldn't load database!"}
@@ -96,6 +98,17 @@ def changeTask(userID, taskName, newState):
             db.session.commit()
         log.debug("Updated task: \"" + taskName + "\" for user ID: " + str(userID) + " to have a status of \"" + newState + "\"")
         return {"success" : "task updated"}
+    else:
+        log.error("couldn't load database!")
+        return {"error" : "couldn't load database!"}
+
+# Update a specific task
+def changeUser(userID, toChange, newValue):
+    if db:
+        db.session.query(User).filter(User.userID == userID).update({toChange : newValue})
+        db.session.commit()
+        log.debug("Updated field \"" + toChange + "\" on account with user ID: " + str(userID))
+        return {"success" : "Account updated!"}
     else:
         log.error("couldn't load database!")
         return {"error" : "couldn't load database!"}

@@ -36,11 +36,39 @@ body {
     border-bottom: 3px solid #a29d8d;
 }
 
+#sa-banner {
+    padding-top: 40px;
+    width: 80%;
+    height: auto;
+}
+
 .user-info {
+    display: table;
     height: 50px;
     padding-top: 40px;
     border-bottom: 3px solid #a29d8d;
     text-align: center;
+    padding: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 6%;
+    background-color: #b8405e;
+    width: 94%;
+}
+
+.user-info > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#user-avi {
+    border-radius: 50%;
+    background-color: #313552;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    color: #eee6ce
 }
 
 .menu-btns {
@@ -164,7 +192,7 @@ body {
 /* Calendar Stylings */
 #cal-display {
     display: grid;
-    grid-template-rows: 48% 40%;
+    grid-template-rows: 60% 40%;
     width: 100%;
     justify-content: center;
 }
@@ -195,7 +223,6 @@ body {
     border-radius: 10px;
     margin: 10px;
     padding-top: 10px;
-
 }
 
 .task-list-item > p {
@@ -205,7 +232,8 @@ body {
 #cal-container {
     background-color: #269874;
     width: 96%;
-    text-align: center;   
+    text-align: center;
+    height: auto;
 }
 
 #cal-container > h2 {
@@ -234,4 +262,80 @@ body {
 /* Class for current date */
 .today {
     border: dotted black 2px;
+}
+
+/* Settings Stylings */
+#settings-display{
+    display: grid;
+    justify-items: center;
+    width: 100%;
+    color: #eee6ce;
+}
+
+.account-fields {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+input[type=text], input[type=password] {
+    width: 350px;
+    height: 36px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#email-div {
+    width: 100%;
+}
+
+#password-div {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+}
+
+.password-input {
+    width: 100%;
+}
+
+#register-div {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+}
+
+#name-input > input {
+    width: 172px;
+}
+
+#notif-info > div {
+    padding-bottom: 6px;
+    border-bottom: 2px solid #a29d8d;
+}
+
+#pick-carrier {
+    display: grid;
+    justify-content: center;
+}
+
+#logout-btn {
+    background-color: #b8405e;
+    width: 25%;
 }

@@ -32,7 +32,7 @@ def validate_email(email_in):
 
 # The flask-security module can do this more safer but timecrunch
 def check_auth(session, intended_return):
-    if session["logged_in"]:
+    if session.get("logged_in"):
         return intended_return
     else:
         return render_template("login.html")
