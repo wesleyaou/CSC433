@@ -71,52 +71,61 @@
     <div class="tab-content" id="settings">
       <div id="settings-display">
         <div class="account-fields">
-          <div id="password-div">
-            <div>
-                <h2 id="email-display"></h2>
+          <h2>Account Settings</h2>
+          <div>
+            <div id="register-div">
+              <div class="settings-item" id="password-div">
+                <h4>Update Password</h4>
+                <input type="password" placeholder="New Password" id="password-in">
+                <input type="submit" value="Submit" id="reg-submit" onclick='updateUser("password")'>
+              </div>
+              <div class="settings-item" id="name-div">
+                <div id="name-input">
+                  <h4>Name</h4>
+                  <input type="text" placeholder="First Name" id="firstname-in">
+                  <input type="text" placeholder="Last Name" id="lastname-in">
+                </div>
+                <input type="submit" value="Submit" id="name-submit" onclick='updateUser("name")'>
+              </div>
             </div>
-            <input type="password" placeholder="Password" id="password-in">
-            <input type="submit" value="Submit" id="reg-submit" onclick='updateUser("password")'>
-          </div>
-          <div id="register-div">
-            <div id="name-input">
-                <input type="text" placeholder="First Name" id="firstname-in">
-                <input type="text" placeholder="Last Name" id="lastname-in">
-            </div>
-            <input type="submit" value="Submit" id="name-submit" onclick='updateUser("name")'>
             <div id="notif-info">
-                <input type="text" placeholder="Cell Phone Number (Optional)" id="phoneNumber-in">
-                <div id="pick-carrier">
-                    <h4>Select Cell Phone Service Provider:</h4>
-                    <div>
-                        <label for="@vtext.com">
-                            <input type="radio" id="carrier-verizon" name="cell-carrier" value="@vtext.com", checked="checked"> Verizon
-                        </label>
-                        <label for="@tmomail.net">
-                            <input type="radio" id="carrier-t-mobile" name="cell-carrier" value="@tmomail.net"> T-Mobile
-                        </label>
-                        <label for="@txt.att.net">
-                            <input type="radio" id="carrier-att" name="cell-carrier" value="@txt.att.net"> AT&T
-                        </label>
-                        <label for="@mymetropcs.com">
-                            <input type="radio" id="carrier-metropcs" name="cell-carrier" value="@mymetropcs.com"> MetroPCS
-                        </label>
-                        <label for="@vmobl.com">
-                            <input type="radio" id="carrier-virgmobile" name="cell-carrier" value="@vmobl.com"> Virgin Mobile
-                        </label>
-                    </div>
+                <div class="settings-item" id="phone-info">
+                  <h4>Phone Number</h4>
+                  <input type="text" placeholder="Cell Phone Number (Optional)" id="phoneNumber-in">
+                  <div id="pick-carrier">
+                      <h4>Select Cell Phone Service Provider:</h4>
+                      <div>
+                          <label for="@vtext.com">
+                              <input type="radio" id="carrier-verizon" name="cell-carrier" value="@vtext.com", checked="checked"> Verizon
+                          </label>
+                          <label for="@tmomail.net">
+                              <input type="radio" id="carrier-t-mobile" name="cell-carrier" value="@tmomail.net"> T-Mobile
+                          </label>
+                          <label for="@txt.att.net">
+                              <input type="radio" id="carrier-att" name="cell-carrier" value="@txt.att.net"> AT&T
+                          </label>
+                          <label for="@mymetropcs.com">
+                              <input type="radio" id="carrier-metropcs" name="cell-carrier" value="@mymetropcs.com"> MetroPCS
+                          </label>
+                          <label for="@vmobl.com">
+                              <input type="radio" id="carrier-virgmobile" name="cell-carrier" value="@vmobl.com"> Virgin Mobile
+                          </label>
+                      </div>
+                  </div>
+                  <input type="submit" value="Submit" id="phone-submit" onclick='updateUser("phoneNumber")'>
                 </div>
-                <input type="submit" value="Submit" id="phone-submit" onclick='updateUser("phoneNumber")'>
-                <h4>Select preferred notification option (Optional):</h4>
-                <div id="pick-notif">
-                    <label for="phoneNotifs">
-                        <input type="checkbox" id="phone-notifs-box" name="notif-prefs" value="phoneNotifs"> Phone
-                    </label>
-                    <label for="emailNotifs">
-                        <input type="checkbox" id="email-notifs-box" name="notif-prefs" value="emailNotifs"> Email
-                    </label>
+                <div class="settings-item" id="notif-pref-info">
+                  <h4>Select preferred notification option (Optional):</h4>
+                  <div id="pick-notif">
+                      <label for="phoneNotifs">
+                          <input type="checkbox" id="phone-notifs-box" name="notif-prefs" value="phoneNotifs"> Phone
+                      </label>
+                      <label for="emailNotifs">
+                          <input type="checkbox" id="email-notifs-box" name="notif-prefs" value="emailNotifs"> Email
+                      </label>
+                  </div>
+                  <input type="submit" value="Submit" id="notif-submit" onclick='updateUser("notifPrefs")'>
                 </div>
-                <input type="submit" value="Submit" id="notif-submit" onclick='updateUser("notifPrefs")'>
                 <input type="submit" value="Logout" id="logout-btn" onclick='logout()'>
             </div>
           </div>

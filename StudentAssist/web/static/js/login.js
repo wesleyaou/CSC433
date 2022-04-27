@@ -162,7 +162,7 @@ function submitReg() {
 function getPhoneCarrier() {
     var phoneNum = document.getElementById("phoneNumber-in").value;
     var carrierSelect = document.getElementById("pick-carrier");
-    var phoneOpt = document.getElementById("phone-notifs-box");
+    var phoneOpt = document.getElementById("phone-notifs-label");
     if (phoneNum != "" || phoneNum != null){
         carrierSelect.style.display = "grid";
         phoneOpt.style.display = "inline-block";

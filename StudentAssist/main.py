@@ -170,7 +170,7 @@ def createUser():
     password=params.get("password")
     emailNotifs=params.get("emailNotifs")
     phoneNotifs=params.get("phoneNotifs")
-    return login_utils.check_auth(session, jsonify(db_connector.createUser(firstName, lastName, emailAddress, phoneNumber, password, emailNotifs, phoneNotifs)))
+    return jsonify(db_connector.createUser(firstName, lastName, emailAddress, phoneNumber, password, emailNotifs, phoneNotifs))
 
 """
 ==================

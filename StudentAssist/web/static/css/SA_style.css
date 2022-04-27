@@ -71,6 +71,11 @@ body {
     color: #eee6ce
 }
 
+#user-name {
+    padding-left: 5px;
+
+}
+
 .menu-btns {
     display: inline-block;
     width: 100%;
@@ -279,6 +284,18 @@ body {
     width: 100%;
 }
 
+.account-fields > h2 {
+    margin: 0;
+    padding-top: 50px;
+}
+
+.settings-item {
+    background-color: #269874;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px;
+}
+
 input[type=text], input[type=password] {
     width: 350px;
     height: 36px;
@@ -293,13 +310,18 @@ input[type=text], input[type=password] {
 input[type=submit] {
     width: 435px;
     height: 50px;
-    background-color: #4CAF50;
+    background-color: #2eb086;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+input[type=submit]:hover, input[type=submit]:active {
+    background-color: #269874;
+    border: 3px solid #2eb086;
 }
 
 #email-div {
@@ -312,6 +334,10 @@ input[type=submit] {
     justify-items: center;
 }
 
+#name-div {
+    width: 100%;
+}
+
 #register-div {
     width: 100%;
     display: grid;
@@ -322,9 +348,18 @@ input[type=submit] {
     width: 172px;
 }
 
+#notif-info {
+    display: grid;
+    justify-items: center;
+}
+
 #notif-info > div {
     padding-bottom: 6px;
-    border-bottom: 2px solid #a29d8d;
+    width: 100%;
+}
+
+#phone-info {
+    margin-bottom: 15px;
 }
 
 #pick-carrier {
