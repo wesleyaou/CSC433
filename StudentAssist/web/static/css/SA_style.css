@@ -274,7 +274,7 @@ body {
 
 .account-fields {
     display: grid;
-    justify-content: center;
+    justify-items: center;
     text-align: center;
     width: 100%;
 }
@@ -291,7 +291,8 @@ input[type=text], input[type=password] {
 }
 
 input[type=submit] {
-    width: 100%;
+    width: 435px;
+    height: 50px;
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
@@ -308,17 +309,13 @@ input[type=submit] {
 #password-div {
     width: 100%;
     display: grid;
-    justify-content: center;
-}
-
-.password-input {
-    width: 100%;
+    justify-items: center;
 }
 
 #register-div {
     width: 100%;
     display: grid;
-    justify-content: center;
+    justify-items: center;
 }
 
 #name-input > input {
