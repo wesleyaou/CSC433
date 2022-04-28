@@ -536,7 +536,8 @@ function updateUser(toChange) {
 
     switch (toChange) {
         case "password":
-            if (!(validatePassword(newValue))) {
+            var password = document.getElementById("password-in").value;
+            if (!(validatePassword(password))) {
                 return;
             } else {
                 var password = document.getElementById("password-in").value;
