@@ -1,0 +1,12 @@
+{
+  "StudentAssist": {
+    "database": {
+      "path": "database/StudentAssist.db"
+    },
+    "logging": {
+      "logLevel": "INFO",
+      "logToFile": false,
+      "logPath": ""
+    }
+  }
+}

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="StudentAssist",
-    version="1.0.0",
+    version="1.0.1",
     author="A+ Labs",
     description="StudentAssist is a Utica College CSC433 Final Project",
     long_description=long_description,
@@ -22,6 +22,8 @@ setup(
     install_requires=["flask", "bcrypt", "flask-sqlalchemy", "flask-security"],
     packages=["StudentAssist"],
     include_package_data=True,
-    package_data={"StudentAssist": ["StudentAssist/web/*", "tests/*"]},
+    package_data={"StudentAssist": ["StudentAssist/web/*", "tests/*", 
+                "StudentAssist/config.json", "StudentAssist/database/StudentAssist.db"]},
+    entry_points={'console_scripts' : ["StudentAssist=StudentAssist.main:main"]},
     python_requires=">=3.6",
 )

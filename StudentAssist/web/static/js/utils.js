@@ -165,8 +165,8 @@ function userCreateTask() {
     else if (taskName == null) {
         return;
     }
-    var taskStartDate = prompt("Enter a start time for the task in MM/dd/yyyy hh:mm format:");
-    var taskDueDate = prompt("Enter a end time for the task in MM/dd/yyyy hh:mm format:");
+    var taskStartDate = prompt("Enter a start time for the task in MM/dd/yyyy hh:mm format [hh:mm MUST be 24 hour format]:");
+    var taskDueDate = prompt("Enter a end time for the task in MM/dd/yyyy hh:mm format [hh:mm MUST be 24 hour format]:");
     var alphaRegExp = /[a-zA-Z]/g;
     if (taskStartDate == null || taskDueDate ==null){
         return;
@@ -536,7 +536,8 @@ function updateUser(toChange) {
 
     switch (toChange) {
         case "password":
-            if (!(validatePassword(newValue))) {
+            var password = document.getElementById("password-in").value;
+            if (!(validatePassword(password))) {
                 return;
             } else {
                 var password = document.getElementById("password-in").value;

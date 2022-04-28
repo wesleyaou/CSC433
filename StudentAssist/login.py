@@ -1,4 +1,4 @@
-import db_connector
+import StudentAssist.db_connector as db_connector
 from flask import render_template
 
 

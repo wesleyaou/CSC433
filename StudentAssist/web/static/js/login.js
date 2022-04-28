@@ -175,7 +175,7 @@ Validation functions
 
 function validateEmail(emailAddress) {
     if (emailAddress === "" || emailAddress === " " || 
-    !(emailAddress.includes("@") || !(emailAddress.includes(".")))){
+    (!(emailAddress.includes("@"))) || (!(emailAddress.includes(".")))){
         alert("Please enter a valid email address!");
         return false;
     }
