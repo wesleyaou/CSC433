@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="StudentAssist",
-    version="1.0.0",
+    version="1.0.1",
     author="A+ Labs",
     description="StudentAssist is a Utica College CSC433 Final Project",
     long_description=long_description,
